@@ -1,0 +1,7 @@
+{
+  "name": "Park And Find",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
