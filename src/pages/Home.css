@@ -5,5 +5,14 @@
 #map {
   display: inline-block;
   width: 100%;
+  height: calc(100% - 160px);
+}
+
+.modal {
+  box-shadow: 0 -3px 10px rgb(0 0 0 / 0.2);
+  background-color: #fff;
+  position: relative;
+  top: -20px;
+  padding: 12px 12px;
   height: 100%;
 }
