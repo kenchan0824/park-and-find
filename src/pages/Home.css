@@ -1,14 +1,27 @@
-.map-container {
+.bg-transparent {
   --background: transparent;
+}
+
+.map-container {
+  width: 100%;
+  height: calc(100% - 180px);
+  position: relative;
 }
 
 #map {
   display: inline-block;
   width: 100%;
-  height: calc(100% - 180px);
+  height: 100%;
+}
+
+.pin {
+  position:absolute;
+  bottom: 50%; 
+  left: 50%;
 }
 
 .modal {
+  border-radius: 0.75rem;
   box-shadow: 0 -3px 10px rgb(0 0 0 / 0.2);
   background-color: #fff;
   position: relative;

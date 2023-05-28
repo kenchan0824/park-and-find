@@ -4,7 +4,7 @@ import {
 import { chevronUpOutline, locationOutline, notificationsOutline, timeOutline } from 'ionicons/icons';
 import { useState } from 'react';
 
-function ParkHere() {
+function ParkHere({ coord }) {
   const [duration, setDuration] = useState(30);
   const [reminder, setReminder] = useState(0);
 
