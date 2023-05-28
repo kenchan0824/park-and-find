@@ -5,7 +5,7 @@
 #map {
   display: inline-block;
   width: 100%;
-  height: calc(100% - 160px);
+  height: calc(100% - 180px);
 }
 
 .modal {

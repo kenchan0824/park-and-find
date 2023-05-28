@@ -50,30 +50,31 @@ const Home: React.FC = () => {
             <IonIcon icon={locationOutline} className="mr-3 text-2xl" />
             <p className="text-base">2 Munday Street, M4 7BG</p>
           </section>
-          <section className="mt-1 flex items-center">
+          <section className="mt-2 flex items-center">
             <IonIcon icon={timeOutline} className="mr-3 text-2xl" />
             <IonSelect interface="action-sheet" value={duration}
               className="font-medium"
               onIonChange={({ target }) => setDuration(target.value)}
             >
               <IonSelectOption value={30}>30 mins</IonSelectOption>
-              <IonSelectOption value={60}>1 hour</IonSelectOption>
+              <IonSelectOption value={45}>45 mins</IonSelectOption>
+              <IonSelectOption value={60}>60 mins</IonSelectOption>
+              <IonSelectOption value={90}>90 mins</IonSelectOption>
               <IonSelectOption value={120}>2 hours</IonSelectOption>
               <IonSelectOption value={180}>3 hours</IonSelectOption>
-              <IonSelectOption value={240}>4 hours</IonSelectOption>
-              <IonSelectOption value={360}>6 hours</IonSelectOption>
             </IonSelect>
           </section>
           <section className="flex items-center">
             <IonIcon icon={notificationsOutline} className="mr-3 text-2xl" />
-            <IonSelect interface="action-sheet" value={duration}
+            <IonSelect interface="action-sheet" value={reminder}
               className="font-medium"
-              onIonChange={({ target }) => setDuration(target.value)}
+              onIonChange={({ target }) => setReminder(target.value)}
             >
-              <IonSelectOption value={30}>5 mins before</IonSelectOption>
-              <IonSelectOption value={60}>10 mins before</IonSelectOption>
-              <IonSelectOption value={60}>15 mins before</IonSelectOption>
-              <IonSelectOption value={60}>30 mins before</IonSelectOption>
+              <IonSelectOption value={0}>Disabled</IonSelectOption>
+              <IonSelectOption value={5}>5 mins before</IonSelectOption>
+              <IonSelectOption value={10}>10 mins before</IonSelectOption>
+              <IonSelectOption value={15}>15 mins before</IonSelectOption>
+              <IonSelectOption value={30}>30 mins before</IonSelectOption>
             </IonSelect>
           </section>
         </main>
