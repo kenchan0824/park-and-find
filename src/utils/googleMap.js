@@ -10,7 +10,7 @@ export async function createMap(mapRef, center) {
     apiKey: import.meta.env.GOOGLE_MAP_API_KEY,
     config: {
       center,
-      zoom: 17
+      zoom: 18
     }
   })
   await mapObj.enableCurrentLocation(true);

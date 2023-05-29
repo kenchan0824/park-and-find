@@ -11,28 +11,30 @@ function ParkHere({ coord }) {
   return (
     <>
       <button 
-        className="absolute top-3 right-3 px-3 rounded-md bg-sky-600 text-gray-50 font-medium"
+        className="absolute top-3 right-3 px-3 py-1 rounded-lg 
+        bg-sky-600 text-gray-50 text-sm font-medium"
       >
         Confirm
       </button>
+
       <section className="font-medium flex items-center">
         <IonIcon icon={chevronUpOutline} className="mr-3 text-2xl" />
         <p className="text-lg">Park Here</p>
       </section>
 
-      <section className="mt-2 flex items-center">
+      <section className="mt-5 flex items-start">
         <IonIcon icon={locationOutline} className="mr-3 text-2xl" />
-        <p className="text-base">2 Munday Street, M4 7BG</p>
+        <p className="whitespace-nowrap overflow-hidden">
+          Milliners Wharf, 2 Munday Street, M4 7BG
+        </p>
       </section>
     
       <section className="mt-2 flex items-center">
         <IonIcon icon={timeOutline} className="mr-3 text-2xl" />
         <IonSelect interface="action-sheet" value={duration}
-          className="font-medium"
           onIonChange={({ target }) => setDuration(target.value)}
         >
           <IonSelectOption value={30}>30 mins</IonSelectOption>
-          <IonSelectOption value={45}>45 mins</IonSelectOption>
           <IonSelectOption value={60}>60 mins</IonSelectOption>
           <IonSelectOption value={90}>90 mins</IonSelectOption>
           <IonSelectOption value={120}>2 hours</IonSelectOption>
@@ -43,7 +45,6 @@ function ParkHere({ coord }) {
       <section className="flex items-center">
         <IonIcon icon={notificationsOutline} className="mr-3 text-2xl" />
         <IonSelect interface="action-sheet" value={reminder}
-          className="font-medium"
           onIonChange={({ target }) => setReminder(target.value)}
         >
           <IonSelectOption value={0}>Disabled</IonSelectOption>

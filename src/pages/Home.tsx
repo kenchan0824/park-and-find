@@ -6,7 +6,7 @@ import {
 } from '@ionic/react';
 import './Home.css';
 import ParkHere from './ParkHere';
-import { pinOutline } from 'ionicons/icons';
+import { pinSharp } from 'ionicons/icons';
 
 const Home: React.FC = () => {
   const modal = useRef(null);
@@ -35,17 +35,17 @@ const Home: React.FC = () => {
 
   return (
     <IonPage>
-      <IonContent className="bg-transparent">
+      <IonContent fullscreen className="bg-transparent">
         <div className="map-container">
           <capacitor-google-map ref={mapRef} id="map" />
           <IonIcon 
-            icon={pinOutline} 
-            className="mr-3 text-2xl pin"
+            icon={pinSharp} 
+            className="text-3xl text-slate-600 pin"
           />
         </div>
-        <main className="modal">
+        <footer className="modal">
           <ParkHere coord={coord} />
-        </main>
+        </footer>
       </IonContent>
     </IonPage>
   );
