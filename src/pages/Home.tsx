@@ -13,18 +13,24 @@ const Home: React.FC = () => {
   const mapRef = useRef(null);
   let googleMap = null;
 
-  const [coord, setCoord] = useState(null);
+  const [position, setPosition] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
       googleMap = await createMap(mapRef, {
-        lat: 53.48262026858102,
-        lng: -2.2181485479477163
+        lat: 53.391026,
+        lng: -1.372909, 
+        // lat: 53.48262026858102,
+        // lng: -2.2181485479477163
       });
       googleMap.setPadding({ bottom: 20 });
+      googleMap.setOnCameraMoveStartedListener(() => {
+        // console.log("moving")
+        setLoading(true);
+      })
       googleMap.setOnCameraIdleListener(({ latitude, longitude }) => {
-        setCoord({ latitude, longitude });
-        console.log('coord', latitude, longitude);
+        setPosition({ latitude, longitude });
       });
     })();
   }, []);
@@ -44,7 +50,7 @@ const Home: React.FC = () => {
           />
         </div>
         <footer className="modal">
-          <ParkHere coord={coord} />
+          <ParkHere position={position} loading={loading} setLoading={setLoading} />
         </footer>
       </IonContent>
     </IonPage>

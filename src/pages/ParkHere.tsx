@@ -1,16 +1,32 @@
+import { useState, useEffect } from 'react';
+import { getAddress } from '../utils/geoLocation'
+
 import {
-  IonIcon, IonSelect, IonSelectOption, 
+  IonIcon, IonSelect, IonSelectOption, IonSpinner,
 } from '@ionic/react';
 import { chevronUpOutline, locationOutline, notificationsOutline, timeOutline } from 'ionicons/icons';
-import { useState } from 'react';
 
-function ParkHere({ coord }) {
+function ParkHere({ position, loading, setLoading }) {
+
   const [duration, setDuration] = useState(30);
   const [reminder, setReminder] = useState(0);
+  const [address, setAddress] = useState("");
+
+  useEffect(() => {
+    if (position) {
+      getAddress(position.latitude, position.longitude)
+        .then((result) => {
+          setAddress(result);
+        })
+        .finally(() => {
+          setLoading(false);
+        })
+    }
+  }, [position]);
 
   return (
     <>
-      <button 
+      <button
         className="absolute top-3 right-3 px-3 py-1 rounded-lg 
         bg-sky-600 text-gray-50 text-sm font-medium"
       >
@@ -19,17 +35,22 @@ function ParkHere({ coord }) {
 
       <section className="font-medium flex items-center">
         <IonIcon icon={chevronUpOutline} className="mr-3 text-2xl" />
-        <p className="text-lg">Park Here</p>
+        <p className="text-xl">Park Here</p>
       </section>
 
-      <section className="mt-5 flex items-start">
+      <section className="mt-6 mb-2 h-8 flex items-center">
         <IonIcon icon={locationOutline} className="mr-3 text-2xl" />
-        <p className="whitespace-nowrap overflow-hidden">
-          Milliners Wharf, 2 Munday Street, M4 7BG
-        </p>
+        {
+        loading ?
+          <IonSpinner name="lines" className="" />
+          :
+          <p className="whitespace-nowrap overflow-hidden">
+            {address}
+          </p>
+        }
       </section>
-    
-      <section className="mt-2 flex items-center">
+
+      <section className="flex items-center">
         <IonIcon icon={timeOutline} className="mr-3 text-2xl" />
         <IonSelect interface="action-sheet" value={duration}
           onIonChange={({ target }) => setDuration(target.value)}

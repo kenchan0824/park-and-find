@@ -7,7 +7,7 @@ export async function createMap(mapRef, center) {
   const mapObj = await GoogleMap.create({
     id: 'map',
     element: mapRef.current,
-    apiKey: import.meta.env.GOOGLE_MAP_API_KEY,
+    apiKey: import.meta.env.VITE_GOOGLE_MAP_API_KEY,
     config: {
       center,
       zoom: 18
