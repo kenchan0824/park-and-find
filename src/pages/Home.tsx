@@ -7,6 +7,7 @@ import {
 import './Home.css';
 import ParkHere from './ParkHere';
 import { pinSharp } from 'ionicons/icons';
+import { getCurrentPosition } from '../utils/geoLocation';
 
 const Home: React.FC = () => {
   const modal = useRef(null);
@@ -18,19 +19,14 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      googleMap = await createMap(mapRef, {
-        lat: 53.391026,
-        lng: -1.372909, 
-        // lat: 53.48262026858102,
-        // lng: -2.2181485479477163
-      });
+      const coord = await getCurrentPosition();
+      googleMap = await createMap(mapRef, coord);
       googleMap.setPadding({ bottom: 20 });
       googleMap.setOnCameraMoveStartedListener(() => {
-        // console.log("moving")
         setLoading(true);
       })
       googleMap.setOnCameraIdleListener(({ latitude, longitude }) => {
-        setPosition({ latitude, longitude });
+        setPosition({ lat: latitude, lng: longitude });
       });
     })();
   }, []);

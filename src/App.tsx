@@ -27,6 +27,7 @@ import './theme/tailwind.css';
 
 setupIonicReact({
   mode: 'ios',
+  innerHTMLTemplatesEnabled: true
 });
 
 const App: React.FC = () => {

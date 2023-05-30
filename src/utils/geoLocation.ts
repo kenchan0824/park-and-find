@@ -6,16 +6,6 @@ export async function checkPermission() {
   return location === "granted";
 }
 
-export async function getCurrLocation() {
-  console.log('getCurrLocation');
-  const { lat, lng } = await getDevicePostion({
-    enableHighAccuracy: true,
-    maximumAge: 1000,
-  });
-  const addr = await getAddress(lat, lng);
-  return { lat, lng, ...addr };
-}
-
 export async function getCurrentPosition() {
   console.log('getDevicePosition');
   const { coords } = await Geolocation.getCurrentPosition({
@@ -25,13 +15,13 @@ export async function getCurrentPosition() {
   return { lat: coords.latitude, lng: coords.longitude };
 }
 
-export async function getAddress(lat, lon) {
-  console.log('getAddress', lat, lon);
+export async function getAddress({ lat, lng }) {
+  console.log('getAddress', lat, lng);
   const { data } = await axios.get('https://us1.locationiq.com/v1/reverse',
     {
       params: {
         key: import.meta.env.VITE_REV_GEOCODING_API_KEY,
-        lat, lon,
+        lat, lon: lng,
         format: 'json',
       }
     });

@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { getAddress } from '../utils/geoLocation'
+import { saveJSON } from '../utils/localStorage';
+import moment from 'moment';
 
 import {
+  IonAlert,
   IonIcon, IonSelect, IonSelectOption, IonSpinner,
 } from '@ionic/react';
 import { chevronUpOutline, locationOutline, notificationsOutline, timeOutline } from 'ionicons/icons';
@@ -11,10 +14,11 @@ function ParkHere({ position, loading, setLoading }) {
   const [duration, setDuration] = useState(30);
   const [reminder, setReminder] = useState(0);
   const [address, setAddress] = useState("");
+  const [alert, setAlert] = useState(false);
 
   useEffect(() => {
     if (position) {
-      getAddress(position.latitude, position.longitude)
+      getAddress(position)
         .then((result) => {
           setAddress(result);
         })
@@ -24,11 +28,29 @@ function ParkHere({ position, loading, setLoading }) {
     }
   }, [position]);
 
+  async function handleConfirm() {
+    await saveJSON('parking', {
+      position, address, duration, reminder, 
+      datetime: moment().toJSON()
+    });
+    setAlert(true);
+  };
+
   return (
     <>
+      <IonAlert
+        isOpen={alert}
+        header="Done"
+        message="Your parking has been recorded. </br>
+        Please press <strong>Leave</strong> on checkout."
+        buttons={["OK"]}
+        onDidDismiss={() => setAlert(false)}
+      />
+
       <button
         className="absolute top-3 right-3 px-3 py-1 rounded-lg 
         bg-sky-600 text-gray-50 text-sm font-medium"
+        onClick={handleConfirm}
       >
         Confirm
       </button>
