@@ -1,5 +1,6 @@
 import { Geolocation } from '@capacitor/geolocation';
 import axios from 'axios';
+import _ from 'lodash';
 
 export async function checkPermission() {
   const { location } = await Geolocation.checkPermissions();
@@ -15,7 +16,7 @@ export async function getCurrentPosition() {
   return { lat: coords.latitude, lng: coords.longitude };
 }
 
-export async function getAddress({ lat, lng }) {
+export const getAddress = _.memoize(async ({ lat, lng }) => {
   console.log('getAddress', lat, lng);
   const { data } = await axios.get('https://us1.locationiq.com/v1/reverse',
     {
@@ -28,4 +29,4 @@ export async function getAddress({ lat, lng }) {
   const { apartments, house_number, road, postcode } = data.address;
   console.log({ apartments, house_number, road, postcode });
   return (apartments ?? (house_number ?? '') + ' ' + road) + ', ' + postcode;
-}
+}, ({ lat, lng }) => `${lat.toFixed(4)}, ${lng.toFixed(4)}`);
