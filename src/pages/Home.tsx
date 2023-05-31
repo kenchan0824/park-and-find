@@ -6,7 +6,7 @@ import { loadJSON } from '../utils/localStorage';
 import { IonContent, IonIcon, IonPage } from '@ionic/react';
 import './Home.css';
 import ParkHere from './ParkHere';
-import { pinSharp } from 'ionicons/icons';
+import { add, pinSharp, remove } from 'ionicons/icons';
 import ParkedCar from './ParkedCar';
 
 const Home: React.FC = () => {
@@ -17,6 +17,7 @@ const Home: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [parking, setParking] = useState(null);
   const [marker, setMarker] = useState("");
+  const [level, setLevel] = useState(18);
 
   useEffect(() => {
     (async () => {
@@ -53,31 +54,60 @@ const Home: React.FC = () => {
           googleMap.removeMarker(marker);
           setMarker("")
         }
-        googleMap.setOnCameraIdleListener(({ latitude, longitude }) => {
+        googleMap.setOnCameraIdleListener(({ latitude, longitude, zoom }) => {
           setPosition({ lat: latitude, lng: longitude });
+          console.log('zoom', zoom)
+          setLevel(zoom)
         });
       }
       setMap(googleMap);
     })();
   }, [parking]);
 
-  async function goToCar() {
-    await map.setCamera({
+  function goToCar() {
+    map.setCamera({
       coordinate: parking.position,
-      zoom: 18,
+      zoom: level,
       animate: true,
     });
   }
+
+  async function zoomIn() {
+    console.log('level', level)
+    map.setCamera({
+      zoom: level+1,
+      animate: true,
+    });
+    setLevel(current => current+1)
+  } 
+
+  async function zoomOut() {
+    console.log('level', level)
+    map.setCamera({
+      zoom: level-1,
+      animate: true,
+    });
+    setLevel(current => current-1)
+  } 
 
   return (
     <IonPage>
       <IonContent fullscreen className="bg-transparent">
         <div className="map-container">
           <capacitor-google-map ref={mapHTML} id="map" />
+          
+          <IonIcon icon={add} onClick={zoomIn}
+              className="text-2xl text-stone-500 p-[7px] bg-white/[0.8] 
+                absolute bottom-[72px] right-[11px] border rounded-sm"
+          />
+            <IonIcon icon={remove} onClick={zoomOut}
+              className="text-2xl text-stone-500 p-[7px] bg-white/[0.8]
+                absolute bottom-[24px] right-[11px] border rounded-sm"
+          />
           {
             !parking &&
             <IonIcon
-              icon={pinSharp}
+              icon={pinSharp} onClick={zoomOut}
               className="text-3xl text-slate-600 pin"
             />
           }
