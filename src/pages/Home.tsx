@@ -10,10 +10,9 @@ import { pinSharp } from 'ionicons/icons';
 import ParkedCar from './ParkedCar';
 
 const Home: React.FC = () => {
-  const modal = useRef(null);
-  const mapRef = useRef(null);
-  let googleMap = null;
+  const mapHTML = useRef(null);
 
+  const [map, setMap] = useState(null);
   const [position, setPosition] = useState(null);
   const [loading, setLoading] = useState(false);
   const [parking, setParking] = useState(null);
@@ -28,6 +27,8 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     console.log('parking', parking);
+    let googleMap = null;
+
     (async () => {
       let coord = null;
       if (parking) {
@@ -37,7 +38,7 @@ const Home: React.FC = () => {
         coord = await getCurrentPosition();
         setPosition(coord);
       }
-      googleMap = await createMap(mapRef, coord);
+      googleMap = await createMap(mapHTML, coord);
       googleMap.setPadding({ bottom: 20 });
       googleMap.setOnCameraMoveStartedListener(() => {
         setLoading(true);
@@ -56,14 +57,22 @@ const Home: React.FC = () => {
           setPosition({ lat: latitude, lng: longitude });
         });
       }
+      setMap(googleMap);
     })();
   }, [parking]);
+
+  async function goToCar() {
+    await map.setCamera({
+      coordinate: parking.position,
+      zoom: 18,
+    });
+  }
 
   return (
     <IonPage>
       <IonContent fullscreen className="bg-transparent">
         <div className="map-container">
-          <capacitor-google-map ref={mapRef} id="map" />
+          <capacitor-google-map ref={mapHTML} id="map" />
           {
             !parking &&
             <IonIcon
@@ -77,6 +86,7 @@ const Home: React.FC = () => {
           parking ?
             <ParkedCar
               parking={parking} setParking={setParking}
+              goToCar={goToCar}
             />
             :
             <ParkHere 

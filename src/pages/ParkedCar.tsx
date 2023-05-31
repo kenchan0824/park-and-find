@@ -3,12 +3,15 @@ import moment from 'moment';
 import { saveJSON } from '../utils/localStorage';
 
 import {
-  IonAlert,
-  IonIcon, IonSelect, IonSelectOption, IonSpinner, useIonAlert,
+  IonIcon, IonSelect, IonSelectOption, useIonAlert,
 } from '@ionic/react';
-import { chevronUpOutline, locationOutline, notificationsOutline, timeOutline } from 'ionicons/icons';
+import {
+  arrowForward, chevronUpOutline, locationOutline,
+  notificationsOutline, timeOutline
+} from 'ionicons/icons';
 
-function ParkedCar({ parking, setParking }) {
+function ParkedCar({ parking, setParking, goToCar }) {
+
   const [reminder, setReminder] = useState(parking.reminder);
   const [alert] = useIonAlert();
 
@@ -35,16 +38,18 @@ function ParkedCar({ parking, setParking }) {
       </button>
 
       <section className="flex items-center mt-1">
-        <IonIcon icon={chevronUpOutline} 
+        <IonIcon icon={chevronUpOutline}
           className="mr-3 text-2xl text-slate-400" />
         <p className="font-medium text-lg">My Parked Car</p>
       </section>
 
       <section className="mt-6 mb-2 h-8 flex items-center">
         <IonIcon icon={locationOutline} className="mr-3 text-2xl" />
-        <p className="whitespace-nowrap overflow-hidden">
+        <p className="whitespace-nowrap overflow-hidden grow">
           {parking.address}
         </p>
+        <IonIcon icon={arrowForward} className="px-2 text-2xl text-sky-600"
+          onClick={() => goToCar()} />
       </section>
 
       <section className="flex items-center">
@@ -53,7 +58,7 @@ function ParkedCar({ parking, setParking }) {
           <p className="font-bold text-lg mr-2">2</p>
           <p className="text-base mr-2">hrs</p>
           <p className="font-bold text-lg mr-2">32</p>
-          <p className="text-base mr-2">mind elapsed</p>
+          <p className="text-base mr-2">mins elapsed</p>
         </div>
       </section>
 

@@ -8,7 +8,9 @@ import {
   IonButton,
   IonIcon, IonSelect, IonSelectOption, IonSpinner, useIonAlert,
 } from '@ionic/react';
-import { chevronUpOutline, locationOutline, notificationsOutline, timeOutline } from 'ionicons/icons';
+import {
+  chevronUpOutline, locationOutline, notificationsOutline, timeOutline
+} from 'ionicons/icons';
 
 function ParkHere({ position, loading, setLoading, setParking }) {
 
@@ -32,14 +34,14 @@ function ParkHere({ position, loading, setLoading, setParking }) {
 
   async function handleConfirm() {
     const parking = {
-      position, address, duration, reminder, 
+      position, address, duration, reminder,
       datetime: moment().toJSON()
     }
     await saveJSON('parking', parking);
     alert({
       header: "Done",
       message: `Your parking has been recorded. </br>
-        Please press <strong>Leave</strong> on checkout.`,        
+        Please press <strong>Leave</strong> on checkout.`,
       buttons: ["OK"],
       onDidDismiss: () => {
         setParking(parking);
@@ -59,7 +61,7 @@ function ParkHere({ position, loading, setLoading, setParking }) {
       </button>
 
       <section className="flex items-center mt-1">
-        <IonIcon icon={chevronUpOutline} 
+        <IonIcon icon={chevronUpOutline}
           className="mr-3 text-2xl text-slate-400" />
         <p className="font-medium text-lg">Park Here</p>
       </section>
@@ -67,12 +69,12 @@ function ParkHere({ position, loading, setLoading, setParking }) {
       <section className="mt-6 h-8 flex items-center">
         <IonIcon icon={locationOutline} className="mr-3 text-2xl" />
         {
-        loading ?
-          <IonSpinner name="lines" className="" />
-          :
-          <p className="whitespace-nowrap overflow-hidden">
-            {address}
-          </p>
+          loading ?
+            <IonSpinner name="lines" className="" />
+            :
+            <p className="whitespace-nowrap overflow-hidden">
+              {address}
+            </p>
         }
       </section>
 
