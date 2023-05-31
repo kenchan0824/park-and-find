@@ -52,7 +52,7 @@ function ParkHere({ position, loading, setLoading, setParking }) {
   return (
     <>
       <button
-        className="absolute top-3 right-3 px-4 py-1 rounded-lg 
+        className="absolute top-3 right-3 px-3 py-1 rounded-lg 
         bg-sky-600 disabled:bg-slate-400 text-gray-50 font-medium"
         onClick={handleConfirm}
         disabled={loading}

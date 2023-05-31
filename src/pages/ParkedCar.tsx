@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import moment from 'moment';
+import { elapsedHours, elapsedMinutes } from '../utils/datetime';
 import { saveJSON } from '../utils/localStorage';
 
 import {
@@ -9,11 +9,17 @@ import {
   arrowForward, chevronUpOutline, locationOutline,
   notificationsOutline, timeOutline
 } from 'ionicons/icons';
+import moment from 'moment';
 
 function ParkedCar({ parking, setParking, goToCar }) {
 
   const [reminder, setReminder] = useState(parking.reminder);
+  const [dummy, setDummy] = useState(0);
   const [alert] = useIonAlert();
+
+  useEffect(() => {
+    setInterval(() => setDummy(moment().valueOf()), 60000);
+  }, []);
 
   function handleLeave() {
     saveJSON('parking', null);
@@ -55,9 +61,24 @@ function ParkedCar({ parking, setParking, goToCar }) {
       <section className="flex items-center">
         <IonIcon icon={timeOutline} className="mr-3 text-2xl" />
         <div className="flex flex-row items-baseline">
-          <p className="font-bold text-lg mr-2">2</p>
-          <p className="text-base mr-2">hrs</p>
-          <p className="font-bold text-lg mr-2">32</p>
+          {
+            elapsedHours(parking.datetime) ?
+              <>
+                <p className="font-bold text-lg mr-2">
+                  {elapsedHours(parking.datetime)}
+                </p>
+                <p className="text-base mr-2">
+                  {
+                    elapsedHours(parking.datetime) > 1 ?
+                      "hrs" :  "hr"
+                  }
+                </p>
+              </>
+              : ""
+          }
+          <p className="font-bold text-lg mr-2">
+            {elapsedMinutes('2023-05-31T14:24:00')}
+          </p>
           <p className="text-base mr-2">mins elapsed</p>
         </div>
       </section>
