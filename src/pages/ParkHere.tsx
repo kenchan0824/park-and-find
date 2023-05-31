@@ -5,18 +5,21 @@ import moment from 'moment';
 
 import {
   IonAlert,
-  IonIcon, IonSelect, IonSelectOption, IonSpinner,
+  IonButton,
+  IonIcon, IonSelect, IonSelectOption, IonSpinner, useIonAlert,
 } from '@ionic/react';
 import { chevronUpOutline, locationOutline, notificationsOutline, timeOutline } from 'ionicons/icons';
 
-function ParkHere({ position, loading, setLoading }) {
+function ParkHere({ position, loading, setLoading, setParking }) {
 
   const [duration, setDuration] = useState(30);
   const [reminder, setReminder] = useState(0);
   const [address, setAddress] = useState("");
   const [alert, setAlert] = useState(false);
+  const [presentAlert] = useIonAlert();
 
   useEffect(() => {
+    console.log("position", position);
     if (position) {
       getAddress(position)
         .then((result) => {
@@ -29,38 +32,39 @@ function ParkHere({ position, loading, setLoading }) {
   }, [position]);
 
   async function handleConfirm() {
-    await saveJSON('parking', {
+    const parking = {
       position, address, duration, reminder, 
       datetime: moment().toJSON()
+    }
+    await saveJSON('parking', parking);
+    presentAlert({
+      header: "Done",
+      message: `Your parking has been recorded. </br>
+        Please press <strong>Leave</strong> on checkout.`,        
+      buttons: ["OK"],
+      onDidDismiss: () => {
+        setParking(parking);
+      }
     });
-    setAlert(true);
   };
 
   return (
     <>
-      <IonAlert
-        isOpen={alert}
-        header="Done"
-        message="Your parking has been recorded. </br>
-        Please press <strong>Leave</strong> on checkout."
-        buttons={["OK"]}
-        onDidDismiss={() => setAlert(false)}
-      />
-
       <button
-        className="absolute top-3 right-3 px-3 py-1 rounded-lg 
-        bg-sky-600 text-gray-50 text-sm font-medium"
+        className="absolute top-3 right-3 px-4 py-1 rounded-lg 
+        bg-sky-600 disabled:bg-slate-400 text-gray-50 font-medium"
         onClick={handleConfirm}
+        disabled={loading}
       >
         Confirm
       </button>
 
-      <section className="font-medium flex items-center">
+      <section className="font-medium flex items-center mt-1">
         <IonIcon icon={chevronUpOutline} className="mr-3 text-2xl" />
         <p className="text-xl">Park Here</p>
       </section>
 
-      <section className="mt-6 mb-2 h-8 flex items-center">
+      <section className="mt-6 h-8 flex items-center">
         <IonIcon icon={locationOutline} className="mr-3 text-2xl" />
         {
         loading ?
@@ -72,7 +76,7 @@ function ParkHere({ position, loading, setLoading }) {
         }
       </section>
 
-      <section className="flex items-center">
+      <section className="mt-1 flex items-center">
         <IonIcon icon={timeOutline} className="mr-3 text-2xl" />
         <IonSelect interface="action-sheet" value={duration}
           onIonChange={({ target }) => setDuration(target.value)}
@@ -85,7 +89,7 @@ function ParkHere({ position, loading, setLoading }) {
         </IonSelect>
       </section>
 
-      <section className="flex items-center">
+      <section className="mt-[-4px] flex items-center">
         <IonIcon icon={notificationsOutline} className="mr-3 text-2xl" />
         <IonSelect interface="action-sheet" value={reminder}
           onIonChange={({ target }) => setReminder(target.value)}

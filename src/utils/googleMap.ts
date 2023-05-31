@@ -17,12 +17,12 @@ export async function createMap(mapRef, center) {
   return mapObj;
 }
 
-export async function addMarker(mapObj, location) {
-  console.log('addMarker', mapObj, location);
+export async function addMarker(mapObj, coord) {
+  console.log('addMarker', mapObj, coord);
   const markerId = await mapObj.addMarker({
-    coordinate: location,
-    title: location.address1,
-    snippet: `${location.address2}, ${location.postcode}`
+    coordinate: coord,
+    // title: location.address1,
+    // snippet: `${location.address2}, ${location.postcode}`
   });
   return markerId;
 }
