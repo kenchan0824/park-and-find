@@ -65,6 +65,7 @@ const Home: React.FC = () => {
     await map.setCamera({
       coordinate: parking.position,
       zoom: 18,
+      animate: true,
     });
   }
 
