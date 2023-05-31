@@ -15,8 +15,7 @@ function ParkHere({ position, loading, setLoading, setParking }) {
   const [duration, setDuration] = useState(30);
   const [reminder, setReminder] = useState(0);
   const [address, setAddress] = useState("");
-  const [alert, setAlert] = useState(false);
-  const [presentAlert] = useIonAlert();
+  const [alert] = useIonAlert();
 
   useEffect(() => {
     console.log("position", position);
@@ -37,7 +36,7 @@ function ParkHere({ position, loading, setLoading, setParking }) {
       datetime: moment().toJSON()
     }
     await saveJSON('parking', parking);
-    presentAlert({
+    alert({
       header: "Done",
       message: `Your parking has been recorded. </br>
         Please press <strong>Leave</strong> on checkout.`,        
@@ -59,9 +58,10 @@ function ParkHere({ position, loading, setLoading, setParking }) {
         Confirm
       </button>
 
-      <section className="font-medium flex items-center mt-1">
-        <IonIcon icon={chevronUpOutline} className="mr-3 text-2xl" />
-        <p className="text-xl">Park Here</p>
+      <section className="flex items-center mt-1">
+        <IonIcon icon={chevronUpOutline} 
+          className="mr-3 text-2xl text-slate-400" />
+        <p className="font-medium text-lg">Park Here</p>
       </section>
 
       <section className="mt-6 h-8 flex items-center">

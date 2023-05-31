@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { getAddress } from '../utils/geoLocation'
-import { saveJSON } from '../utils/localStorage';
 import moment from 'moment';
+import { saveJSON } from '../utils/localStorage';
 
 import {
   IonAlert,
@@ -10,12 +9,12 @@ import {
 import { chevronUpOutline, locationOutline, notificationsOutline, timeOutline } from 'ionicons/icons';
 
 function ParkedCar({ parking, setParking }) {
-  const [presentAlert] = useIonAlert();
   const [reminder, setReminder] = useState(parking.reminder);
-  const [alert, setAlert] = useState(false);
+  const [alert] = useIonAlert();
 
   function handleLeave() {
-    presentAlert({
+    saveJSON('parking', null);
+    alert({
       header: "Done",
       message: "Thank you for using Park & Find!",
       buttons: ["OK"],
@@ -23,7 +22,6 @@ function ParkedCar({ parking, setParking }) {
         setParking(null);
       }
     });
-
   }
 
   return (
@@ -36,9 +34,10 @@ function ParkedCar({ parking, setParking }) {
         Leave
       </button>
 
-      <section className="font-medium flex items-center mt-1">
-        <IonIcon icon={chevronUpOutline} className="mr-3 text-2xl" />
-        <p className="text-xl">My Parked Car</p>
+      <section className="flex items-center mt-1">
+        <IonIcon icon={chevronUpOutline} 
+          className="mr-3 text-2xl text-slate-400" />
+        <p className="font-medium text-lg">My Parked Car</p>
       </section>
 
       <section className="mt-6 mb-2 h-8 flex items-center">
@@ -50,9 +49,12 @@ function ParkedCar({ parking, setParking }) {
 
       <section className="flex items-center">
         <IonIcon icon={timeOutline} className="mr-3 text-2xl" />
-        <p className="font-semibold text-lg text-stone-600">
-          2 hour 32 mins elapsed
-        </p>
+        <div className="flex flex-row items-baseline">
+          <p className="font-bold text-lg mr-2">2</p>
+          <p className="text-base mr-2">hrs</p>
+          <p className="font-bold text-lg mr-2">32</p>
+          <p className="text-base mr-2">mind elapsed</p>
+        </div>
       </section>
 
       <section className="flex items-center">

@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { createMap, addMarker } from '../utils/googleMap';
+import { getCurrentPosition } from '../utils/geoLocation';
+import { loadJSON } from '../utils/localStorage';
 
 import { IonContent, IonIcon, IonPage } from '@ionic/react';
 import './Home.css';
 import ParkHere from './ParkHere';
 import { pinSharp } from 'ionicons/icons';
-import { getCurrentPosition } from '../utils/geoLocation';
 import ParkedCar from './ParkedCar';
 
 const Home: React.FC = () => {
@@ -19,12 +20,20 @@ const Home: React.FC = () => {
   const [marker, setMarker] = useState("");
 
   useEffect(() => {
+    (async () => {
+      const data = await loadJSON('parking');
+      setParking(data);
+    })()
+  }, []);
+
+  useEffect(() => {
     console.log('parking', parking);
     (async () => {
       let coord = null;
       if (parking) {
         coord = parking.position;
       } else {
+        setLoading(true);
         coord = await getCurrentPosition();
         setPosition(coord);
       }
