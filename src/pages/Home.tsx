@@ -98,11 +98,11 @@ const Home: React.FC = () => {
           
           <IonIcon icon={add} onClick={zoomIn}
               className="text-2xl text-stone-500 p-[7px] bg-white/[0.8] 
-                absolute bottom-[72px] right-[11px] border rounded-sm"
+                absolute top-[60px] right-[11px] border rounded-t-sm"
           />
             <IonIcon icon={remove} onClick={zoomOut}
               className="text-2xl text-stone-500 p-[7px] bg-white/[0.8]
-                absolute bottom-[24px] right-[11px] border rounded-sm"
+                absolute top-[98px] right-[11px] border rounded-b-sm"
           />
           {
             !parking &&
