@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react';
 import { elapsedHours, elapsedMinutes } from '../utils/datetime';
-import moment from 'moment';
 
 export default function ElapsedTime({ start }) {
-  const [timer, setTimer] = useState(0);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    setInterval(() => setTimer(moment().valueOf()), 60000);
+    setInterval(() => setCount(count+1), 15000);
   }, []);
 
   const hours = elapsedHours(start);
   const minutes = elapsedMinutes(start);
 
   return (
-    <div className="flex flex-row items-baseline w-[100%]">
+    <div className="flex flex-row items-baseline w-full">
       {
         hours > 0 &&
         <>

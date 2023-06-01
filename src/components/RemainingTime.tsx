@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react';
 import { remainingHours, remainingMinutes } from '../utils/datetime';
-import moment from 'moment';
 
 export default function RemainingTime({ start, duration }) {
-  const [timer, setTimer] = useState(0);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    setInterval(() => setTimer(moment().valueOf()), 60000);
+    setInterval(() => setCount(count+1), 15000);
   }, []);
 
   const hours = remainingHours(start, duration);
   const minutes = remainingMinutes(start, duration);
 
-  if (hours >= 0 || minutes >= 0) {
+  if (hours < 0 || minutes < 0) {
     return (
       <div className="flex flex-row items-baseline w-full">
         <p>Expired</p>

@@ -51,22 +51,22 @@ function ParkHere({ position, loading, setLoading, setParking }) {
 
   return (
     <>
-      <button
-        className="absolute top-3 right-3 px-3 py-1 rounded-lg 
+
+      <section className="flex items-center">
+        <IonIcon icon={chevronUpOutline}
+          className="mr-3 text-2xl text-slate-400" />
+        <p className="font-medium text-lg grow">Park Here</p>
+        <button
+        className="px-3 py-1 rounded-lg  
         bg-sky-600 disabled:bg-slate-400 text-gray-50 font-medium"
         onClick={handleConfirm}
         disabled={loading}
       >
         Confirm
       </button>
-
-      <section className="flex items-center mt-1">
-        <IonIcon icon={chevronUpOutline}
-          className="mr-3 text-2xl text-slate-400" />
-        <p className="font-medium text-lg">Park Here</p>
       </section>
 
-      <section className="mt-6 h-8 flex items-center">
+      <section className="mt-5 h-11 flex items-center">
         <IonIcon icon={locationOutline} className="mr-3 text-2xl" />
         {
           loading ?
@@ -78,9 +78,9 @@ function ParkHere({ position, loading, setLoading, setParking }) {
         }
       </section>
 
-      <section className="flex items-center ">
+      <section className="h-11 flex items-center">
         <IonIcon icon={timeOutline} className="mr-3 text-2xl " />
-        <IonSelect interface="action-sheet" value={duration} className=""
+        <IonSelect interface="action-sheet" value={duration} className="min-h-0"
           onIonChange={({ target }) => setDuration(target.value)}
         >
           <IonSelectOption value={30}>30 mins</IonSelectOption>
@@ -91,9 +91,9 @@ function ParkHere({ position, loading, setLoading, setParking }) {
         </IonSelect>
       </section>
 
-      <section className="mt-[-10px] flex items-center ">
+      <section className="h-11 flex items-center">
         <IonIcon icon={notificationsOutline} className="mr-3 text-2xl " />
-        <IonSelect interface="action-sheet" value={reminder} className=""
+        <IonSelect interface="action-sheet" value={reminder} className="min-h-0"
           onIonChange={({ target }) => setReminder(target.value)}
         >
           <IonSelectOption value={0}>Disabled</IonSelectOption>

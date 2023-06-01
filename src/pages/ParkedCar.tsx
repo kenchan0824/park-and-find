@@ -31,21 +31,21 @@ function ParkedCar({ parking, setParking, goToCar }) {
 
   return (
     <>
-      <button
-        className="absolute top-3 right-3 px-4 py-1 rounded-lg 
-        bg-sky-600 text-gray-50 font-medium"
-        onClick={handleLeave}
-      >
-        Leave
-      </button>
-
-      <section className="flex items-center mt-1">
+      <section className="flex items-center">
         <IonIcon icon={chevronUpOutline}
           className="mr-3 text-2xl text-slate-400" />
-        <p className="font-medium text-lg">My Parked Car</p>
+        <p className="font-medium text-lg grow">Park Here</p>
+        <button
+          className="px-4 py-1 rounded-lg  
+          bg-sky-600 disabled:bg-slate-400 text-gray-50 font-medium"
+          onClick={handleLeave}
+        >
+          Leave
+        </button>
       </section>
 
-      <section className="mt-6 mb-[5px] h-8 flex items-center">
+
+      <section className="mt-5 h-11 flex items-center">
         <IonIcon icon={locationOutline} className="mr-3 text-2xl" />
         <p className="whitespace-nowrap overflow-hidden grow text-sky-600"
           onClick={goToCar}
@@ -54,26 +54,26 @@ function ParkedCar({ parking, setParking, goToCar }) {
         </p>
       </section>
 
-      <Swiper loop={true} spaceBetween={30} className="py-1 border-t border-b">
+      <Swiper loop={true} spaceBetween={30} className="h-11 border-t border-b">
         <SwiperSlide className="relative flex items-center ">
           <IonIcon icon={timeOutline} className="mr-3 text-2xl " />
           <ElapsedTime start={parking.datetime} />
           <IonIcon icon={chevronBack} 
-            className="absolute top-2 right-[-4px] text-xl"
+            className="absolute top-3 right-[-4px] text-xl"
           />
         </SwiperSlide>
         <SwiperSlide className="relative flex items-center">
           <IonIcon icon={timeOutline} className="mr-3 text-2xl" />
           <RemainingTime start={parking.datetime} duration={parking.duration}/>
           <IonIcon icon={chevronBack} 
-            className="absolute top-2 right-[-4px] text-xl"
+            className="absolute top-3 right-[-4px] text-xl"
           />
         </SwiperSlide>
       </Swiper>
 
-      <section className="mt-[-5px] flex items-center ">
+      <section className="h-11  flex items-center ">
         <IonIcon icon={notificationsOutline} className="mr-3 text-2xl " />
-        <IonSelect interface="action-sheet" value={reminder} className=""
+        <IonSelect interface="action-sheet" value={reminder} className="min-h-0"
           onIonChange={({ target }) => setReminder(target.value)}
         >
           <IonSelectOption value={0}>Disabled</IonSelectOption>

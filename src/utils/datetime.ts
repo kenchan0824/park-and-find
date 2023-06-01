@@ -13,5 +13,5 @@ export function remainingHours(timestamp, duration) {
 }
 
 export function remainingMinutes(timestamp, duration) {
-  return moment(timestamp).add(duration, 'minutes').diff(moment(), 'minutes') % 60;
+  return moment(timestamp).add(duration, 'minutes').diff(moment(), 'minutes') % 60 +1;
 }
