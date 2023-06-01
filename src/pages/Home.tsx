@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { createMap, addMarker } from '../utils/googleMap';
+import { createMap, addMarker, gotoPoint, zoom } from '../utils/googleMap';
 import { getCurrentPosition } from '../utils/geoLocation';
 import { loadJSON } from '../utils/localStorage';
 
@@ -13,14 +13,24 @@ const Home: React.FC = () => {
   const mapHTML = useRef(null);
 
   const [map, setMap] = useState(null);
+  const [parking, setParking] = useState(null);
   const [position, setPosition] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [parking, setParking] = useState(null);
   const [marker, setMarker] = useState("");
   const [level, setLevel] = useState(18);
 
   useEffect(() => {
     (async () => {
+      const googleMap = await createMap(mapHTML);
+      googleMap.setOnCameraMoveStartedListener(() => {
+        setLoading(true);
+      })
+      googleMap.setOnCameraIdleListener(({ latitude, longitude, zoom }) => {
+        setPosition({ lat: latitude, lng: longitude });
+        setLevel(zoom)
+      });
+      setMap(googleMap);
+
       const data = await loadJSON('parking');
       setParking(data);
     })()
@@ -28,65 +38,38 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     console.log('parking', parking);
-    let googleMap = null;
 
     (async () => {
       let coord = null;
+
       if (parking) {
         coord = parking.position;
+        const markerId = await addMarker(map, coord);
+        setMarker(markerId);
+
       } else {
         setLoading(true);
         coord = await getCurrentPosition();
         setPosition(coord);
+        map.removeMarker(marker);
+        setMarker("")
       }
-      googleMap = await createMap(mapHTML, coord);
-      googleMap.setPadding({ bottom: 20 });
-      googleMap.setOnCameraMoveStartedListener(() => {
-        setLoading(true);
-      })
-      if (parking) {
-        const markerId = await googleMap.addMarker({
-          coordinate: parking.position
-        });
-        setMarker(markerId);
-      } else {
-        if (marker) {
-          googleMap.removeMarker(marker);
-          setMarker("")
-        }
-        googleMap.setOnCameraIdleListener(({ latitude, longitude, zoom }) => {
-          setPosition({ lat: latitude, lng: longitude });
-          console.log('zoom', zoom)
-          setLevel(zoom)
-        });
-      }
-      setMap(googleMap);
+
+      gotoPoint(map, coord);
     })();
   }, [parking]);
 
   function goToCar() {
-    map.setCamera({
-      coordinate: parking.position,
-      zoom: level,
-      animate: true,
-    });
+    gotoPoint(map, parking.position);
   }
 
   async function zoomIn() {
-    console.log('level', level)
-    map.setCamera({
-      zoom: level+1,
-      animate: true,
-    });
+    zoom(map, level+1)
     setLevel(current => current+1)
   } 
 
   async function zoomOut() {
-    console.log('level', level)
-    map.setCamera({
-      zoom: level-1,
-      animate: true,
-    });
+    zoom(map, level-1)
     setLevel(current => current-1)
   } 
 
@@ -97,17 +80,16 @@ const Home: React.FC = () => {
           <capacitor-google-map ref={mapHTML} id="map" />
           
           <IonIcon icon={add} onClick={zoomIn}
-              className="text-2xl text-stone-500 p-[7px] bg-white/[0.8] 
-                absolute top-[60px] right-[11px] border rounded-t-sm"
+            className="text-2xl text-stone-500 p-[7px] bg-white/[0.8] 
+              absolute bottom-[50%] right-[11px] border rounded-t-sm"
           />
-            <IonIcon icon={remove} onClick={zoomOut}
-              className="text-2xl text-stone-500 p-[7px] bg-white/[0.8]
-                absolute top-[98px] right-[11px] border rounded-b-sm"
+          <IonIcon icon={remove} onClick={zoomOut}
+            className="text-2xl text-stone-500 p-[7px] bg-white/[0.8]
+              absolute top-[50%] right-[11px] border rounded-b-sm"
           />
           {
             !parking &&
-            <IonIcon
-              icon={pinSharp} onClick={zoomOut}
+            <IonIcon icon={pinSharp} 
               className="text-3xl text-slate-600 pin"
             />
           }
