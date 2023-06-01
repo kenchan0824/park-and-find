@@ -45,11 +45,11 @@ function ParkedCar({ parking, setParking, goToCar }) {
 
       <section className="mt-6 mb-2 h-8 flex items-center">
         <IonIcon icon={locationOutline} className="mr-3 text-2xl" />
-        <p className="whitespace-nowrap overflow-hidden grow">
+        <p className="whitespace-nowrap overflow-hidden grow text-sky-600"
+          onClick={goToCar}
+        >
           {parking.address}
         </p>
-        <IonIcon icon={arrowForward} className="px-2 text-2xl text-sky-600"
-          onClick={() => goToCar()} />
       </section>
 
       <section className="flex items-center">
