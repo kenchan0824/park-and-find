@@ -15,7 +15,7 @@ export async function createMap(mapHTML) {
       zoom: 18
     }
   })
-  map.setPadding({ bottom: 20 });
+  map.setPadding({ bottom: 40 });
   map.enableCurrentLocation(true);
 
   return map;
