@@ -78,9 +78,9 @@ function ParkHere({ position, loading, setLoading, setParking }) {
         }
       </section>
 
-      <section className="mt-1 flex items-center">
-        <IonIcon icon={timeOutline} className="mr-3 text-2xl" />
-        <IonSelect interface="action-sheet" value={duration}
+      <section className="flex items-center ">
+        <IonIcon icon={timeOutline} className="mr-3 text-2xl " />
+        <IonSelect interface="action-sheet" value={duration} className=""
           onIonChange={({ target }) => setDuration(target.value)}
         >
           <IonSelectOption value={30}>30 mins</IonSelectOption>
@@ -91,9 +91,9 @@ function ParkHere({ position, loading, setLoading, setParking }) {
         </IonSelect>
       </section>
 
-      <section className="mt-[-4px] flex items-center">
-        <IonIcon icon={notificationsOutline} className="mr-3 text-2xl" />
-        <IonSelect interface="action-sheet" value={reminder}
+      <section className="mt-[-10px] flex items-center ">
+        <IonIcon icon={notificationsOutline} className="mr-3 text-2xl " />
+        <IonSelect interface="action-sheet" value={reminder} className=""
           onIonChange={({ target }) => setReminder(target.value)}
         >
           <IonSelectOption value={0}>Disabled</IonSelectOption>

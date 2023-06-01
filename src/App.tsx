@@ -26,7 +26,7 @@ import './theme/tailwind.css';
 
 
 setupIonicReact({
-  mode: 'ios',
+  mode: 'md',
   innerHTMLTemplatesEnabled: true
 });
 
