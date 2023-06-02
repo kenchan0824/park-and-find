@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { remainingHours, remainingMinutes } from '../utils/datetime';
+import TimeCard from './TimeCard';
 
 export default function RemainingTime({ start, duration }) {
   const [count, setCount] = useState(0);
@@ -13,15 +14,15 @@ export default function RemainingTime({ start, duration }) {
 
   if (hours < 0 || minutes < 0) {
     return (
-      <div className="flex flex-row items-baseline w-full">
+      <TimeCard>
         <p>Expired</p>
         <p className="font-bold text-lg invisible">_</p>
-      </div>
+      </TimeCard>
     );
   }
 
   return (
-    <div className="flex flex-row items-baseline w-full">
+    <TimeCard>
       {
         hours > 0 &&
         <>
@@ -39,6 +40,6 @@ export default function RemainingTime({ start, duration }) {
       <p className="text-base mr-2">
         {minutes > 1 ? "mins remaining" : "min remaining"}
       </p>
-    </div>
+    </TimeCard>
   );
 }

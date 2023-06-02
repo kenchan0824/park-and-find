@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
 import { endTime, endSession } from '../utils/datetime';
+import TimeCard from './TimeCard';
+
 
 export default function EndTime({ start, duration }) {
 
@@ -7,7 +8,7 @@ export default function EndTime({ start, duration }) {
   const session = endSession(start, duration);
 
   return (
-    <div className="flex flex-row items-baseline w-full">
+    <TimeCard>
       <p className="text-base mr-2">
         Ends at
       </p>
@@ -17,6 +18,6 @@ export default function EndTime({ start, duration }) {
       <p className="font-bold text-base mr-2">
         {session}
       </p>
-    </div>
+    </TimeCard>
   );
 }

@@ -5,7 +5,7 @@ import {
   IonIcon, IonSelect, IonSelectOption, useIonAlert,
 } from '@ionic/react';
 import {
-  chevronBack, chevronUpOutline, locationOutline, notificationsOutline, timeOutline
+  chevronUpOutline, locationOutline, notificationsOutline
 } from 'ionicons/icons';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -56,26 +56,14 @@ function ParkedCar({ parking, setParking, goToCar }) {
       </section>
 
       <Swiper loop={true} spaceBetween={30} className="h-11 border-t border-b">
-        <SwiperSlide className="relative flex items-center ">
-          <IonIcon icon={timeOutline} className="mr-3 text-2xl " />
+        <SwiperSlide>
           <ElapsedTime start={parking.datetime} />
-          <IonIcon icon={chevronBack} 
-            className="absolute top-3 right-[-4px] text-xl"
-          />
         </SwiperSlide>
-        <SwiperSlide className="relative flex items-center">
-          <IonIcon icon={timeOutline} className="mr-3 text-2xl" />
+        <SwiperSlide>
           <RemainingTime start={parking.datetime} duration={parking.duration}/>
-          <IonIcon icon={chevronBack} 
-            className="absolute top-3 right-[-4px] text-xl"
-          />
         </SwiperSlide>
-        <SwiperSlide className="relative flex items-center">
-          <IonIcon icon={timeOutline} className="mr-3 text-2xl" />
+        <SwiperSlide>
           <EndTime start={parking.datetime} duration={parking.duration}/>
-          <IonIcon icon={chevronBack} 
-            className="absolute top-3 right-[-4px] text-xl"
-          />
         </SwiperSlide>
       </Swiper>
 

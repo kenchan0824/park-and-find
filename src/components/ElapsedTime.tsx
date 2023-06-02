@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { elapsedHours, elapsedMinutes } from '../utils/datetime';
+import TimeCard from './TimeCard';
 
 export default function ElapsedTime({ start }) {
   const [count, setCount] = useState(0);
@@ -12,7 +13,7 @@ export default function ElapsedTime({ start }) {
   const minutes = elapsedMinutes(start);
 
   return (
-    <div className="flex flex-row items-baseline w-full">
+    <TimeCard>
       {
         hours > 0 &&
         <>
@@ -29,7 +30,7 @@ export default function ElapsedTime({ start }) {
       </p>
       <p className="text-base mr-2">
         {minutes > 1 ? "mins elapsed" : "min elapsed"}
-      </p>
-    </div>
-  );
+      </p>    
+  </TimeCard>
+);
 }
