@@ -11,6 +11,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import ElapsedTime from '../components/ElapsedTime';
 import RemainingTime from '../components/RemainingTime';
+import EndTime from '../components/EndTime';
 
 function ParkedCar({ parking, setParking, goToCar }) {
 
@@ -31,13 +32,13 @@ function ParkedCar({ parking, setParking, goToCar }) {
 
   return (
     <>
-      <section className="flex items-center">
+      <section className="flex items-center ">
         <IonIcon icon={chevronUpOutline}
           className="mr-3 text-2xl text-slate-400" />
-        <p className="font-medium text-lg grow">Park Here</p>
+        <p className="pt-1 font-medium text-lg grow">Parked Car</p>
         <button
-          className="px-4 py-1 rounded-lg  
-          bg-sky-600 disabled:bg-slate-400 text-gray-50 font-medium"
+          className="px-4 py-1 rounded-lg font-medium text-base 
+          bg-sky-600 disabled:bg-slate-400 text-gray-50 "
           onClick={handleLeave}
         >
           Leave
@@ -65,6 +66,13 @@ function ParkedCar({ parking, setParking, goToCar }) {
         <SwiperSlide className="relative flex items-center">
           <IonIcon icon={timeOutline} className="mr-3 text-2xl" />
           <RemainingTime start={parking.datetime} duration={parking.duration}/>
+          <IonIcon icon={chevronBack} 
+            className="absolute top-3 right-[-4px] text-xl"
+          />
+        </SwiperSlide>
+        <SwiperSlide className="relative flex items-center">
+          <IonIcon icon={timeOutline} className="mr-3 text-2xl" />
+          <EndTime start={parking.datetime} duration={parking.duration}/>
           <IonIcon icon={chevronBack} 
             className="absolute top-3 right-[-4px] text-xl"
           />

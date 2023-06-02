@@ -5,7 +5,7 @@ export default function ElapsedTime({ start }) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    setInterval(() => setCount(count+1), 15000);
+    setInterval(() => setCount(current => current+1), 15000);
   }, []);
 
   const hours = elapsedHours(start);

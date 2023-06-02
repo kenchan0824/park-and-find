@@ -55,7 +55,7 @@ function ParkHere({ position, loading, setLoading, setParking }) {
       <section className="flex items-center">
         <IonIcon icon={chevronUpOutline}
           className="mr-3 text-2xl text-slate-400" />
-        <p className="font-medium text-lg grow">Park Here</p>
+        <p className="pt-1 font-medium text-lg grow">Park Here</p>
         <button
         className="px-3 py-1 rounded-lg  
         bg-sky-600 disabled:bg-slate-400 text-gray-50 font-medium"
