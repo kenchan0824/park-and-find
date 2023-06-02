@@ -1,22 +1,24 @@
 import { useState, useEffect } from 'react';
 import { saveJSON } from '../utils/localStorage';
+import { notifyAt, cancelAll } from '../utils/notification';
 
-import {
-  IonIcon, IonSelect, IonSelectOption, useIonAlert,
-} from '@ionic/react';
-import {
-  chevronUpOutline, locationOutline, notificationsOutline
-} from 'ionicons/icons';
+import { IonIcon, useIonAlert, useIonToast } from '@ionic/react';
+import { chevronUpOutline, locationOutline } from 'ionicons/icons';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+
 import ElapsedTime from '../components/ElapsedTime';
 import RemainingTime from '../components/RemainingTime';
 import EndTime from '../components/EndTime';
+import Reminder from '../components/Reminder';
+import moment from 'moment';
+
 
 function ParkedCar({ parking, setParking, goToCar }) {
 
   const [reminder, setReminder] = useState(parking.reminder);
   const [alert] = useIonAlert();
+  const [toast] = useIonToast();
 
   function handleLeave() {
     saveJSON('parking', null);
@@ -28,6 +30,26 @@ function ParkedCar({ parking, setParking, goToCar }) {
         setParking(null);
       }
     });
+  }
+
+  function handleReminder(alarm) {
+    if (alarm) {
+      const diff = parking.duration - alarm;
+      const remindTime = moment(parking.datetime).add(diff, 'minutes');
+      notifyAt(remindTime, alarm);
+      toast({
+        message: "Reminder updated.",
+        duration: 2000,
+        position: "bottom"
+      })
+    } else {
+      cancelAll();
+      toast({
+        message: "Reminder cancelled.",
+        duration: 2000,
+        position: "bottom"
+      })
+    }
   }
 
   return (
@@ -45,7 +67,6 @@ function ParkedCar({ parking, setParking, goToCar }) {
         </button>
       </section>
 
-
       <section className="mt-5 h-11 flex items-center">
         <IonIcon icon={locationOutline} className="mr-3 text-2xl" />
         <p className="whitespace-nowrap overflow-hidden grow text-sky-600"
@@ -60,25 +81,14 @@ function ParkedCar({ parking, setParking, goToCar }) {
           <ElapsedTime start={parking.datetime} />
         </SwiperSlide>
         <SwiperSlide>
-          <RemainingTime start={parking.datetime} duration={parking.duration}/>
+          <RemainingTime start={parking.datetime} duration={parking.duration} />
         </SwiperSlide>
         <SwiperSlide>
-          <EndTime start={parking.datetime} duration={parking.duration}/>
+          <EndTime start={parking.datetime} duration={parking.duration} />
         </SwiperSlide>
       </Swiper>
 
-      <section className="h-11  flex items-center ">
-        <IonIcon icon={notificationsOutline} className="mr-3 text-2xl " />
-        <IonSelect interface="action-sheet" value={reminder} className="min-h-0"
-          onIonChange={({ target }) => setReminder(target.value)}
-        >
-          <IonSelectOption value={0}>Disabled</IonSelectOption>
-          <IonSelectOption value={5}>5 mins before</IonSelectOption>
-          <IonSelectOption value={10}>10 mins before</IonSelectOption>
-          <IonSelectOption value={15}>15 mins before</IonSelectOption>
-          <IonSelectOption value={30}>30 mins before</IonSelectOption>
-        </IonSelect>
-      </section>
+      <Reminder reminder={reminder} setReminder={setReminder} onChange={handleReminder} />
     </>
   );
 }

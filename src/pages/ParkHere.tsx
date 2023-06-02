@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import { getAddress } from '../utils/geoLocation'
 import { saveJSON } from '../utils/localStorage';
+import { notifyAt } from '../utils/notification';
 import moment from 'moment';
 
 import {
-  IonAlert,
-  IonButton,
   IonIcon, IonSelect, IonSelectOption, IonSpinner, useIonAlert,
 } from '@ionic/react';
 import {
   chevronUpOutline, locationOutline, notificationsOutline, timeOutline
 } from 'ionicons/icons';
+import Reminder from '../components/Reminder';
 
 function ParkHere({ position, loading, setLoading, setParking }) {
 
@@ -33,11 +33,14 @@ function ParkHere({ position, loading, setLoading, setParking }) {
   }, [position]);
 
   async function handleConfirm() {
+    const timestamp = moment(); 
     const parking = {
       position, address, duration, reminder,
-      datetime: moment().toJSON()
+      datetime: timestamp.toJSON()
     }
     await saveJSON('parking', parking);
+    const remindTime = timestamp.add(duration, 'minutes').subtract(reminder, 'minutes'); 
+    await notifyAt(remindTime, reminder);
     alert({
       header: "Done",
       message: `Your parking has been recorded. </br>
@@ -91,18 +94,7 @@ function ParkHere({ position, loading, setLoading, setParking }) {
         </IonSelect>
       </section>
 
-      <section className="h-11 flex items-center">
-        <IonIcon icon={notificationsOutline} className="mr-3 text-2xl " />
-        <IonSelect interface="action-sheet" value={reminder} className="min-h-0"
-          onIonChange={({ target }) => setReminder(target.value)}
-        >
-          <IonSelectOption value={0}>Disabled</IonSelectOption>
-          <IonSelectOption value={5}>5 mins before</IonSelectOption>
-          <IonSelectOption value={10}>10 mins before</IonSelectOption>
-          <IonSelectOption value={15}>15 mins before</IonSelectOption>
-          <IonSelectOption value={30}>30 mins before</IonSelectOption>
-        </IonSelect>
-      </section>
+      <Reminder reminder={reminder} setReminder={setReminder} />
     </>
   );
 }
