@@ -25,25 +25,30 @@ export default function Home() {
   const [isOpen, setOpen] = useState(true);
 
   useEffect(() => {
-    (async () => {
-      const googleMap = await createMap(mapHTML);
-      googleMap.setOnCameraMoveStartedListener(() => {
-        setLoading(true);
-      })
-      googleMap.setOnCameraIdleListener(({ latitude, longitude, zoom }) => {
-        setPosition({ lat: latitude, lng: longitude });
-        setLevel(zoom)
-      });
-      setMap(googleMap);
 
-      const data = await loadJSON('parking');
-      setParking(data);
-    })()
+    loadJSON('parking')
+      .then((data) => {
+        if (data) {
+          setParking(data);
+          setOpen(false);
+        }
+      });
+
+    createMap(mapHTML)
+      .then((googleMap) => {
+        googleMap.setOnCameraMoveStartedListener(() => {
+          setLoading(true);
+        })
+        googleMap.setOnCameraIdleListener(({ latitude, longitude, zoom }) => {
+          setPosition({ lat: latitude, lng: longitude });
+          setLevel(zoom)
+        });
+        setMap(googleMap);
+      });
+
   }, []);
 
   useEffect(() => {
-    console.log('parking', parking);
-
     (async () => {
       let coord = null;
 
@@ -69,14 +74,14 @@ export default function Home() {
   }
 
   async function zoomIn() {
-    zoom(map, level+1)
-    setLevel(current => current+1)
-  } 
+    zoom(map, level + 1)
+    setLevel(current => current + 1)
+  }
 
   async function zoomOut() {
-    zoom(map, level-1)
-    setLevel(current => current-1)
-  } 
+    zoom(map, level - 1)
+    setLevel(current => current - 1)
+  }
 
   return (
     <IonPage>
@@ -84,7 +89,7 @@ export default function Home() {
       <IonContent fullscreen className="bg-transparent">
         <div className="map-container">
           <capacitor-google-map ref={mapHTML} id="map" />
-          
+
           <IonIcon icon={add} onClick={zoomIn}
             className="text-2xl text-stone-500 p-[7px] bg-white/[0.8] 
               absolute bottom-[50%] right-[11px] border rounded-t-sm"
@@ -95,26 +100,26 @@ export default function Home() {
           />
           {
             !parking &&
-            <IonIcon icon={pinSharp} 
+            <IonIcon icon={pinSharp}
               className="text-3xl text-slate-600 pin"
             />
           }
         </div>
         <footer className="modal">
-        {
-          parking ?
-            <ParkedCar
-              parking={parking} setParking={setParking}
-              goToCar={goToCar}
-              setOpen={setOpen}
-            />
-            :
-            <ParkHere 
-              position={position} 
-              loading={loading} setLoading={setLoading} 
-              setParking={setParking} 
-            />
-        }
+          {
+            parking ?
+              <ParkedCar
+                parking={parking} setParking={setParking}
+                goToCar={goToCar}
+                setOpen={setOpen}
+              />
+              :
+              <ParkHere
+                position={position}
+                loading={loading} setLoading={setLoading}
+                setParking={setParking}
+              />
+          }
         </footer>
       </IonContent>
     </IonPage>
