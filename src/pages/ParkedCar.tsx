@@ -14,7 +14,7 @@ import Reminder from '../components/Reminder';
 import moment from 'moment';
 
 
-function ParkedCar({ parking, setParking, goToCar }) {
+function ParkedCar({ parking, setParking, goToCar, setOpen }) {
 
   const [reminder, setReminder] = useState(parking.reminder);
   const [alert] = useIonAlert();
@@ -28,6 +28,7 @@ function ParkedCar({ parking, setParking, goToCar }) {
       buttons: ["OK"],
       onDidDismiss: () => {
         setParking(null);
+        setOpen(true);
       }
     });
   }

@@ -4,12 +4,16 @@ import { getCurrentPosition } from '../utils/geoLocation';
 import { loadJSON } from '../utils/localStorage';
 
 import { IonContent, IonIcon, IonPage } from '@ionic/react';
-import './Home.css';
-import ParkHere from './ParkHere';
 import { add, pinSharp, remove } from 'ionicons/icons';
-import ParkedCar from './ParkedCar';
+import './Home.css';
 
-const Home: React.FC = () => {
+import ParkHere from './ParkHere';
+import ParkedCar from './ParkedCar';
+import Landing from './Landing';
+
+
+export default function Home() {
+
   const mapHTML = useRef(null);
 
   const [map, setMap] = useState(null);
@@ -18,6 +22,7 @@ const Home: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [marker, setMarker] = useState("");
   const [level, setLevel] = useState(18);
+  const [isOpen, setOpen] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -75,6 +80,7 @@ const Home: React.FC = () => {
 
   return (
     <IonPage>
+      <Landing isOpen={isOpen} setOpen={setOpen} />
       <IonContent fullscreen className="bg-transparent">
         <div className="map-container">
           <capacitor-google-map ref={mapHTML} id="map" />
@@ -100,6 +106,7 @@ const Home: React.FC = () => {
             <ParkedCar
               parking={parking} setParking={setParking}
               goToCar={goToCar}
+              setOpen={setOpen}
             />
             :
             <ParkHere 
@@ -113,5 +120,3 @@ const Home: React.FC = () => {
     </IonPage>
   );
 };
-
-export default Home;
