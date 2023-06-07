@@ -6,7 +6,7 @@ export default function RemainingTime({ start, duration }) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    setInterval(() => setCount(current => current+1), 15000);
+    setInterval(() => setCount(current => current+1), 5000);
   }, []);
 
   const hours = remainingHours(start, duration);

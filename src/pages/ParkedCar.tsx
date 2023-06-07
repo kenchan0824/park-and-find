@@ -58,7 +58,9 @@ function ParkedCar({ parking, setParking, goToCar, setOpen }) {
       <section className="flex items-center ">
         <IonIcon icon={chevronUpOutline}
           className="mr-3 text-2xl text-slate-400" />
-        <p className="pt-1 font-medium text-lg grow">Parked Car</p>
+        <p className="pt-1 font-medium text-lg grow">
+          Parked Car
+        </p>
         <button
           className="px-4 py-1 rounded-lg font-medium text-base 
           bg-sky-600 disabled:bg-slate-400 text-gray-50 "
