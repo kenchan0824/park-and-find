@@ -39,8 +39,10 @@ function ParkHere({ position, loading, setLoading, setParking }) {
       datetime: timestamp.toJSON()
     }
     await saveJSON('parking', parking);
-    const remindTime = timestamp.add(duration, 'minutes').subtract(reminder, 'minutes'); 
-    await notifyAt(remindTime, reminder);
+    if (reminder) {
+      const remindTime = timestamp.add(duration, 'minutes').subtract(reminder, 'minutes'); 
+      await notifyAt(remindTime, reminder);
+    }
     alert({
       header: "Done",
       message: `Your parking has been recorded. </br>

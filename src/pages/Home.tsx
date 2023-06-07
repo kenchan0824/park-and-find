@@ -49,6 +49,8 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    if (!map) return;
+    
     (async () => {
       let coord = null;
 
@@ -67,7 +69,7 @@ export default function Home() {
 
       gotoPoint(map, coord);
     })();
-  }, [parking]);
+  }, [map, parking]);
 
   function goToCar() {
     gotoPoint(map, parking.position);
@@ -85,7 +87,10 @@ export default function Home() {
 
   return (
     <IonPage>
-      <Landing isOpen={isOpen} setOpen={setOpen} />
+      {
+        isOpen &&
+          <Landing setOpen={setOpen} />
+      }
       <IonContent fullscreen className="bg-transparent">
         <div className="map-container">
           <capacitor-google-map ref={mapHTML} id="map" />
